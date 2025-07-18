@@ -87,4 +87,9 @@ document.addEventListener('DOMContentLoaded', function () {
   cartItemsContainer = document.getElementById("cart-items");
   totalPriceElement = document.getElementById("total-price");
   cartSummary = document.getElementById("cart-summary");
+
+  // Load cart items immediately after DOM elements are found
+  if (cartItemsContainer) {
+    loadCart();
+  }
 });
