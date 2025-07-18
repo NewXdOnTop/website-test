@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="../js/cart-items.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f5f5;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .cart-container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .cart-header {
+        background: #333;
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+      }
+
+      .cart-header h2 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .cart-header .cart-icon {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+      }
+
+      .cart-content {
+        padding: 2rem;
+        min-height: 400px;
+      }
+
+      .empty-cart {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #666;
+      }
+
+      .empty-cart i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: #ddd;
+      }
+
+      .empty-cart h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #999;
+      }
+
+      .cart-item {
+        display: flex;
+        align-items: center;
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #e9ecef;
+      }
+
+      .cart-item:hover {
+        background: #e9ecef;
+      }
+
+      .cart-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .item-image {
+        width: 80px;
+        height: 80px;
+        background: #6c757d;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.5rem;
+        font-size: 2rem;
+        color: white;
+        flex-shrink: 0;
+      }
+
+      .item-info {
+        flex: 1;
+        margin-right: 1rem;
+      }
+
+      .item-info h4 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .item-info .item-unit-price {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 1rem 0;
+        background: white;
+        border-radius: 5px;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+      }
+
+      .quantity-controls button {
+        width: 35px;
+        height: 35px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #f8f9fa;
+        color: #333;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quantity-controls button:hover {
+        background: #e9ecef;
+      }
+
+      .quantity {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #333;
+        min-width: 30px;
+        text-align: center;
+      }
+
+      .item-price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #28a745;
+        margin-right: 1rem;
+        text-align: center;
+        min-width: 100px;
+      }
+
+      .remove-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 0.8rem 1.2rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .remove-btn:hover {
+        background: #c82333;
+      }
+
+      .cart-summary {
+        background: #f8f9fa;
+        padding: 2rem;
+        margin-top: 2rem;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+      }
+
+      .total-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+      }
+
+      .checkout-btn {
+        width: 100%;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .checkout-btn:hover {
+        background: #0056b3;
+      }
+
+      .checkout-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+      }
+
+      .back-btn {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 1rem;
+        }
+
+        .cart-container {
+          margin: 0;
+          border-radius: 8px;
+        }
+
+        .cart-header {
+          padding: 1.5rem;
+        }
+
+        .back-btn {
+          top: 1.5rem;
+          left: 1.5rem;
+          width: 45px;
+          height: 45px;
+          font-size: 1.1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255, 255, 255, 0.25);
+          backdrop-filter: blur(4px);
+          transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+          background: rgba(255, 255, 255, 0.35);
+          transform: scale(1.05);
+        }
+
+        .back-btn:active {
+          transform: scale(0.95);
+        }
+
+        .cart-item {
+          flex-direction: column;
+          text-align: center;
+          padding: 1.2rem;
+        }
+
+        .item-image {
+          margin-bottom: 1rem;
+          margin-right: 0;
+        }
+
+        .item-info {
+          margin-right: 0;
+          margin-bottom: 1rem;
+        }
+
+        .cart-header h2 {
+          font-size: 1.8rem;
+          margin-top: 0.5rem;
+        }
+
+        .cart-content {
+          padding: 1.5rem;
+        }
+
+        .quantity-controls {
+          justify-content: center;
+        }
+
+        .item-price {
+          font-size: 1.3rem;
+          margin-bottom: 1rem;
+        }
+
+        .checkout-btn {
+          font-size: 1.1rem;
+          padding: 1.2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .back-btn {
+          top: 1rem;
+          left: 1rem;
+          width: 40px;
+          height: 40px;
+          font-size: 1rem;
+        }
+
+        .cart-header {
+          padding: 1rem;
+        }
+
+        .cart-header h2 {
+          font-size: 1.5rem;
+        }
+
+        .cart-content {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cart-container">
+      <div class="cart-header">
+        <button class="back-btn" onclick="window.history.back()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2>
+          <i class="fas fa-shopping-cart cart-icon"></i>
+          Your Cart
+        </h2>
+      </div>
+
+      <div class="cart-content">
+        <div id="cart-items"></div>
+
+        <div class="cart-summary" id="cart-summary" style="display: none;">
+          <div class="total-section">
+            <span>Total Amount:</span>
+            <span id="total-price">₹0</span>
+          </div>
+          <button class="checkout-btn" onclick="checkout()">
+            <i class="fas fa-credit-card"></i> Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

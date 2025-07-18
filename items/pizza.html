@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pizza</title>
+    <link rel="stylesheet" href="../css/product.css">
+    <script src="../js/add-item.js"></script>
+  </head>
+  <body>
+    <header>
+      <a href="../index.html">
+        <h1>MyStore</h1>
+      </a>
+      <nav>
+        <a href="home">Home</a>
+        <a href="#">Products</a>
+        <a id="cart-tag" href="cart">Cart</a>
+      </nav>
+    </header>
+    <main>
+      <div class="product-detail">
+        <div class="product-top">
+          <img
+            src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/740a92bd202ffd40813bc354b86005db"
+            alt="Product 1">
+          <div class="counter">
+            <button onclick="changeCount(1)">&#43;</button>
+            <div id="item-count">0</div>
+            <button onclick="changeCount(-1)">&#45;</button>
+          </div>
+          <button class="add-button" onclick="addToCart('Pizza',199)">ADD</button>
+        </div>
+        <h2>Pizza</h2>
+        <p class="price">Rs 199</p>
+        <p class="description">
+          A delicious pizza topped with fresh ingredients and a blend of cheeses, perfect for any occasion. Enjoy the
+          rich flavors and satisfying crust that make this pizza a favorite among food lovers.
+        </p>
+        <a href="../index.html" class="back-button">← Back to Store</a>
+      </div>
+    </main>
+  </body>
+</html>
