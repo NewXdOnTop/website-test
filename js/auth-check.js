@@ -1,4 +1,3 @@
-
 // When webpage is loaded this script will run
 document.addEventListener('DOMContentLoaded', function () {
   // Check authentication status when account button is clicked
@@ -37,13 +36,22 @@ async function checkAuthStatus() {
     const accountButton = document.getElementById('account-info');
     if (accountButton && data.isAuthenticated) {
       // User is logged In
-      accountButton.title = `Logged in as ${data.user.email}`;
+      const user = data.user;
+      accountButton.title = `Logged in as ${user.email}`;
 
       // Change border
       const accountImg = accountButton.querySelector('img');
       if (accountImg) {
         accountImg.style.border = '2px solid #28a745';
         accountImg.style.borderRadius = '50%';
+      }
+      console.log('User role:', user.role);
+      if (user.role === 'admin') {
+        // Show admin options
+        const adminOptions = document.getElementById('admin-options');
+        if (adminOptions) {
+          adminOptions.style.display = 'flex';
+        }
       }
     }
   } catch (error) {

@@ -7,6 +7,16 @@ router.post('/register', async (req, res) => {
   try {
     const {email, password, name} = req.body;
 
+    // Validate required fields
+    if (!email || !password) {
+      return res.status(400).json({message: 'Email and password are required'});
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      return res.status(400).json({message: 'Password must be at least 6 characters long'});
+    }
+
     // Check if user already exists
     const existingUser = await User.findOne({email});
     if (existingUser) {
@@ -30,11 +40,19 @@ router.post('/register', async (req, res) => {
       user: {
         id: user._id,
         email: user.email,
-        name: user.name
+        name: user.name,
+        role: user.role
       }
     });
   } catch (error) {
     console.error('Registration error:', error);
+
+    // Handle mongoose validation errors
+    if (error.name === 'ValidationError') {
+      const errors = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({message: errors.join(', ')});
+    }
+
     res.status(500).json({message: 'Server error during registration'});
   }
 });
@@ -73,7 +91,8 @@ router.post('/login', async (req, res) => {
       user: {
         id: user._id,
         email: user.email,
-        name: user.name
+        name: user.name,
+        role: user.role
       }
     });
   } catch (error) {
@@ -100,7 +119,8 @@ router.get('/check-auth', async (req, res) => {
       user: {
         id: user._id,
         email: user.email,
-        name: user.name
+        name: user.name,
+        role: user.role
       }
     });
   } catch (error) {

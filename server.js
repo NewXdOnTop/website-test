@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const User = require('./models/User');
 
 dotenv.config();
 
@@ -33,6 +34,18 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 // 1 day
   }
 }));
+
+// Middleware to load user from session - Adding user to request object
+app.use(async (req, res, next) => {
+  if (req.session.userId) {
+    try {
+      req.user = await User.findById(req.session.userId).select('-password');
+    } catch (error) {
+      console.error('Error loading user from session:', error);
+    }
+  }
+  next();
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -61,6 +74,12 @@ app.get('/profile', (req, res) => {
 
 app.get('/thankyou', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/thankyou.html'));
+});
+
+app.get('/admin', (req, res) => {
+  req.user && req.user.role === 'admin'
+    ? res.sendFile(path.join(__dirname, 'public/admin.html'))
+    : res.status(403).sendFile(path.join(__dirname, 'public/404.html'));
 });
 
 /*// Redirect root to home page
