@@ -10,6 +10,7 @@ Its not fully implemented yet, so it might contain bugs.
 - Responsive design
 - Account system
 - Cart system etc
+- Mobile UI
 
 ## Things to do
 - Implement proper account system
