@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MyStore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/cart-fetch.js"></script>
+    <script src="js/auth-check.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <h1>MyStore</h1>
+      <div class="wrapper">
+        <nav class="navigation" id="navbar">
+          <ul class="nav-links">
+            <li><a href="home">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="cart" id="cart-update">Cart</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="admin" id="admin-options" style="display: none">Admin</a></li>
+            <li><a href="signup" id="account-info" class="profile-logo"><img
+              src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+              alt="Account"></a></li>
+          </ul>
+        </nav>
+        <div class="dropdown-icon" onclick="dropDownClickAction()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </header>
+    <main>
+      <form onsubmit="return false;">
+        <div class="search-bar">
+          <img src="favicon.ico" alt="search-img">
+          <input type="text" id="searchInput" placeholder="Search products...">
+          <button onclick="searchProducts()">Submit</button>
+        </div>
+      </form>
+      <section class="product-grid">
+        <div class="product" data-name="burger">
+          <a href="items/burger.html">
+            <img src="https://b.zmtcdn.com/data/o2_assets/110a09a9d81f0e5305041c1b507d0f391743058910.png"
+                 alt="Product 1">
+          </a>
+          <h3>Burger</h3>
+          <p>Rs 79</p>
+        </div>
+        <div class="product" data-name="pizza">
+          <a href="items/pizza.html">
+            <img
+              src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/740a92bd202ffd40813bc354b86005db"
+              alt="Product 2">
+          </a>
+          <h3>Pizza</h3>
+          <p>Rs 199</p>
+        </div>
+        <div class="product" data-name="rasgulla">
+          <a href="items/rasgulla.html">
+            <img
+              src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_264,h_288,c_fill/FOOD_CATALOG/IMAGES/CMS/2024/8/7/a9c365c9-eaf9-4670-bbef-6810aede8d2d_3b9b2a76-c22d-4a9a-8cae-8573fa51b1b5.jpeg"
+              alt="Product 3">
+          </a>
+          <h3>Rasgulla</h3>
+          <p>Rs 49</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 MyStore. All rights reserved.</p>
+    </footer>
+    <script>
+      function dropDownClickAction() {
+        const nav = document.getElementById("navbar");
+        nav.classList.toggle("show");
+
+        const mobileMenuBtn = document.querySelector(".dropdown-icon");
+        mobileMenuBtn.classList.toggle("active");
+      }
+
+      function searchProducts() {
+        const query = document.getElementById("searchInput").value.toLowerCase();
+        const products = document.querySelectorAll(".product");
+
+        products.forEach(product => {
+          const name = product.getAttribute("data-name").toLowerCase();
+          product.style.display = name.includes(query) ? "block" : "none";
+        });
+      }
+
+      cartItemNumber();
+    </script>
+  </body>
+
+</html>
